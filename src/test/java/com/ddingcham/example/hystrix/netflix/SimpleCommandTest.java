@@ -89,7 +89,6 @@ public class SimpleCommandTest {
                 },
                 (exception) -> {
                     log.debug("onError(Throwable) : {}", exception);
-
                 });
     }
 }
