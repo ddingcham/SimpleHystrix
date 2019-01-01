@@ -1,4 +1,4 @@
-package com.ddingcham.example.hystrix.netflix;
+package com.ddingcham.example.hystrix.netflix.cache;
 
 import com.netflix.hystrix.strategy.concurrency.HystrixRequestContext;
 import org.junit.After;
@@ -11,12 +11,12 @@ public class SimpleCommandCacheTest {
     HystrixRequestContext context;
 
     @Before
-    public void setUp() {
+    public void initContext() {
         context = HystrixRequestContext.initializeContext();
     }
 
     @After
-    public void setOut() {
+    public void shutDownContext() {
         context.shutdown();
     }
 
@@ -51,8 +51,8 @@ public class SimpleCommandCacheTest {
         assertThat(command2b.execute()).isTrue();
         assertThat(command2b.isResponseFromCache()).isTrue();
 
-        setOut();
-        setUp();
+        shutDownContext();
+        initContext();
 
         SimpleCommandCache command2c = new SimpleCommandCache(2);
 

@@ -1,15 +1,12 @@
-package com.ddingcham.example.hystrix.netflix;
+package com.ddingcham.example.hystrix.netflix.cache;
 
 import com.netflix.hystrix.HystrixCommand;
-import com.netflix.hystrix.HystrixCommandGroupKey;
-
 
 public class SimpleCommandCache extends HystrixCommand<Boolean> {
-    static final String COMMAND_ID = "SimpleCommandCache";
     private final int value;
 
-    protected SimpleCommandCache(int value) {
-        super(HystrixCommandGroupKey.Factory.asKey(COMMAND_ID));
+    public SimpleCommandCache(int value) {
+        super(Setter.withGroupKey(CacheCommandContexts.CACHE_COMMAND_KEY));
         this.value = value;
     }
 
@@ -19,7 +16,7 @@ public class SimpleCommandCache extends HystrixCommand<Boolean> {
     }
 
     @Override
-    protected Boolean run() throws Exception {
+    protected Boolean run() {
         return value == 0 || value % 2 == 0;
     }
 }
